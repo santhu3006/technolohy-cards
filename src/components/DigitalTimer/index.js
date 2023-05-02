@@ -1,73 +1,21 @@
-import {Component} from 'react'
-
 import './index.css'
 
-const initialState = {
-  isTimerRunning: false,
-  timeElapsedInSeconds: 0,
-  timerLimitInMinutes: 25,
+const CardItem = props => {
+  const {cardDetails} = props
+  const {title, description, imgUrl, className} = cardDetails
+
+  return (
+    <li className={`${className} card-item`}>
+      <h1 className="card-title">{title}</h1>
+      <p className="card-description">{description}</p>
+      <div className="img-container">
+        <img className="card-img" src={imgUrl} alt={title} />
+      </div>
+    </li>
+  )
 }
 
-class DigitalTimer extends Component {
-  state = initialState
-
-  componentWillUnmount() {
-    this.clearTimerInterval()
-  }
-
-  clearTimerInterval = () => clearInterval(this.intervalId)
-
-  onDecreaseTimerLimitInMinutes = () => {
-    const {timerLimitInMinutes} = this.state
-
-    if (timerLimitInMinutes > 1) {
-      this.setState(prevState => ({
-        timerLimitInMinutes: prevState.timerLimitInMinutes - 1,
-      }))
-    }
-  }
-
-  onIncreaseTimerLimitInMinutes = () =>
-    this.setState(prevState => ({
-      timerLimitInMinutes: prevState.timerLimitInMinutes + 1,
-    }))
-
-  renderTimerLimitController = () => {
-    const {timerLimitInMinutes, timeElapsedInSeconds} = this.state
-    const isButtonsDisabled = timeElapsedInSeconds > 0
-
-    return (
-      <div className="timer-limit-controller-container">
-        <p className="limit-label">Set Timer limit</p>
-        <div className="timer-limit-controller">
-          <button
-            className="limit-controller-button"
-            disabled={isButtonsDisabled}
-            onClick={this.onDecreaseTimerLimitInMinutes}
-            type="button"
-          >
-            -
-          </button>
-          <div className="limit-label-and-value-container">
-            <p className="limit-value">{timerLimitInMinutes}</p>
-          </div>
-          <button
-            className="limit-controller-button"
-            disabled={isButtonsDisabled}
-            onClick={this.onIncreaseTimerLimitInMinutes}
-            type="button"
-          >
-            +
-          </button>
-        </div>
-      </div>
-    )
-  }
-
-  onResetTimer = () => {
-    this.clearTimerInterval()
-    this.setState(initialState)
-  }
+export default CardItem
 
   incrementTimeElapsedInSeconds = () => {
     const {timerLimitInMinutes, timeElapsedInSeconds} = this.state
